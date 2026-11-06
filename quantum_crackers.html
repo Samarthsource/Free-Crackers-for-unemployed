@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Crackers: The Eco-Friendly Sound Board</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0f172a',
+                        cardbg: '#1e293b',
+                        accent: '#f59e0b',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(245, 158, 11, 0.6); }
+        }
+        .cracker-glow { animation: pulse-glow 3s infinite; }
+    </style>
+</head>
+<body class="bg-darkbg text-slate-100 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-black">
+
+    <!-- Header Section -->
+    <header class="w-full border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-4 py-4">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl">🎇</span>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">Quantum Crackers</h1>
+                    <p class="text-xs text-slate-400">Zero Smoke • 100% Digital Chaos</p>
+                </div>
+            </div>
+            <!-- Global Controls / Mode, Mute & Volume -->
+            <div class="flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
+                <button id="modeToggleBtn" class="text-xs font-semibold px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded-md border border-amber-500/30 transition hover:bg-amber-500/30" title="Toggle Real vs Weird Sound Mode">Mode: Weird</button>
+                <button id="muteToggleBtn" class="text-amber-400 hover:text-amber-300 transition text-sm font-semibold" title="Toggle Mute">🔊</button>
+                <input id="volumeSlider" type="range" min="0" max="1" step="0.05" value="0.7" class="w-14 accent-amber-500 cursor-pointer">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Canvas & Sound Board Container -->
+    <main class="w-full max-w-md mx-auto px-4 py-6 flex-1 flex flex-col space-y-6">
+        
+        <!-- Canvas Visualizer Screen -->
+        <div class="relative w-full h-48 bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden shadow-inner flex items-center justify-center">
+            <canvas id="visualCanvas" class="absolute inset-0 w-full h-full pointer-events-none"></canvas>
+            <div id="canvasPlaceholder" class="text-center z-10 p-4 transition-opacity duration-300">
+                <p class="text-3xl mb-1 animate-bounce">📳💥</p>
+                <p class="text-sm font-medium text-slate-400">Select a cracker below to detonate digital chaos</p>
+            </div>
+            <!-- Live Status Badge -->
+            <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur border border-slate-700 px-2.5 py-1 rounded-md text-[10px] text-amber-400 font-mono tracking-wide uppercase flex items-center space-x-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span id="statusText">System Ready</span>
+            </div>
+        </div>
+
+        <!-- Crackers Selection Grid -->
+        <div class="space-y-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 px-1">Choose Your Weapon of Annoyance</h2>
+            
+            <div class="grid grid-cols-1 gap-3">
+                
+                <!-- 1. Anar (Flower Pot) -->
+                <button onclick="triggerCracker('anar')" class="group relative flex items-center justify-between p-4 bg-cardbg hover:bg-slate-800 border border-slate-700/80 hover:border-amber-500/50 rounded-xl transition-all duration-200 shadow-lg text-left active:scale-[0.98]">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                            🪴
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-200 group-hover:text-amber-400 transition-colors">Eco-Anar (Flower Pot)</h3>
+                            <p class="text-xs text-slate-400">Spits golden sparks & leaky faucet rhythm</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded border border-slate-800">Tap to Ignite</span>
+                </button>
+
+                <!-- 2. Atom Bomb -->
+                <button onclick="triggerCracker('bomb')" class="group relative flex items-center justify-between p-4 bg-cardbg hover:bg-slate-800 border border-slate-700/80 hover:border-red-500/50 rounded-xl transition-all duration-200 shadow-lg text-left active:scale-[0.98]">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                            💣
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-200 group-hover:text-red-400 transition-colors">Digital Atom Bomb</h3>
+                            <p class="text-xs text-slate-400">Phone dropping on hard tile simulation</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded border border-slate-800">Tap to Ignite</span>
+                </button>
+
+                <!-- 3. Rocket -->
+                <button onclick="triggerCracker('rocket')" class="group relative flex items-center justify-between p-4 bg-cardbg hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/50 rounded-xl transition-all duration-200 shadow-lg text-left active:scale-[0.98]">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                            🚀
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-200 group-hover:text-cyan-400 transition-colors">Quantum Rocket</h3>
+                            <p class="text-xs text-slate-400">Whistles upward with dial-up modem screech</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded border border-slate-800">Tap to Ignite</span>
+                </button>
+
+                <!-- 4. Chakra (Ground Spinner) -->
+                <button onclick="triggerCracker('chakra')" class="group relative flex items-center justify-between p-4 bg-cardbg hover:bg-slate-800 border border-slate-700/80 hover:border-purple-500/50 rounded-xl transition-all duration-200 shadow-lg text-left active:scale-[0.98]">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                            🛞
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-200 group-hover:text-purple-400 transition-colors">Frantic Chakra</h3>
+                            <p class="text-xs text-slate-400">Spins wildly like a fan hitting paper</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded border border-slate-800">Tap to Ignite</span>
+                </button>
+
+            </div>
+        </div>
+
+        <!-- Custom Annoyance Barometer Widget -->
+        <div class="bg-cardbg border border-slate-800 rounded-xl p-4 space-y-2">
+            <div class="flex justify-between items-center text-xs">
+                <span class="text-slate-400 font-medium">Neighbor Annoyance Index</span>
+                <span id="annoyanceLabel" class="text-amber-400 font-bold">Mildly Confused</span>
+            </div>
+            <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
+                <div id="annoyanceBar" class="bg-gradient-to-r from-amber-500 to-red-500 h-full w-1/4 transition-all duration-300"></div>
+            </div>
+            <p class="text-[11px] text-slate-500 italic text-center">Trigger multiple crackers rapidly to escalate neighborly bewilderment.</p>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full border-t border-slate-800 bg-slate-900/60 py-4 px-4 text-center text-xs text-slate-500">
+        <p>✨ Saving planet Earth while driving neighborhood cats insane digitally. Happy Diwali! ✨</p>
+    </footer>
+
+    <!-- Custom Notification / Message Box -->
+    <div id="notificationToast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-slate-800 text-slate-100 px-4 py-2.5 rounded-xl border border-slate-700 shadow-2xl text-xs font-medium opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center space-x-2">
+        <span id="toastIcon">💡</span>
+        <span id="toastText">Notification message</span>
+    </div>
+
+    <!-- Application JavaScript Logic -->
+    <script>
+        // Web Audio API Context setup
+        let audioCtx = null;
+        let isMuted = false;
+        let isRealMode = false; // Toggle between Real and Weird sound modes
+        let annoyanceScore = 20;
+
+        // Canvas Visualizer setup
+        const canvas = document.getElementById('visualCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function triggerVisuals(type) {
+            const placeholder = document.getElementById('canvasPlaceholder');
+            placeholder.style.opacity = '0';
+            
+            let color = '#f59e0b';
+            if (type === 'bomb') color = '#ef4444';
+            else if (type === 'rocket') color = '#06b6d4';
+            else if (type === 'chakra') color = '#a855f7';
+
+            // Spawn particles
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            for (let i = 0; i < 40; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 6 + 2;
+                particles.push({
+                    x: cx,
+                    y: cy,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    radius: Math.random() * 4 + 2,
+                    color: color,
+                    alpha: 1,
+                    decay: Math.random() * 0.02 + 0.015
+                });
+            }
+        }
+
+        // Animation Loop for Canvas
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.alpha -= p.decay;
+
+                if (p.alpha <= 0) {
+                    particles.splice(i, 1);
+                    continue;
+                }
+
+                ctx.save();
+                ctx.globalAlpha = p.alpha;
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // Mode Toggle Button listener
+        const modeToggleBtn = document.getElementById('modeToggleBtn');
+        modeToggleBtn.addEventListener('click', () => {
+            isRealMode = !isRealMode;
+            modeToggleBtn.textContent = isRealMode ? 'Mode: Real 🔥' : 'Mode: Weird 🤪';
+            modeToggleBtn.className = isRealMode 
+                ? 'text-xs font-semibold px-2 py-0.5 bg-red-500/20 text-red-400 rounded-md border border-red-500/30 transition hover:bg-red-500/30'
+                : 'text-xs font-semibold px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded-md border border-amber-500/30 transition hover:bg-amber-500/30';
+            showToast(isRealMode ? 'Switched to Authentic Explosive Mode!' : 'Switched to Absurd Weird Sound Mode!', isRealMode ? '🔥' : '🤪');
+        });
+
+        // Volume slider & Mute button listeners
+        const volumeSlider = document.getElementById('volumeSlider');
+        const muteToggleBtn = document.getElementById('muteToggleBtn');
+
+        muteToggleBtn.addEventListener('click', () => {
+            isMuted = !isMuted;
+            muteToggleBtn.textContent = isMuted ? '🔇' : '🔊';
+            showToast(isMuted ? 'Audio Muted' : 'Audio Unmuted', isMuted ? '🔇' : '🔊');
+        });
+
+        // Canvas Setup
+        // Synthesized Audio Generators via Web Audio API (Weird & Real Authentic modes)
+        function playAnarSound(vol) {
+            if (isMuted || !audioCtx) return;
+            if (isRealMode) {
+                // Authentic Anar (Flower pot): continuous heavy white-noise crackle & fizz shower
+                const bufferSize = audioCtx.sampleRate * 1.5; // 1.5 seconds
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = (Math.random() * 2 - 1) * (Math.random() > 0.85 ? 1 : 0.1);
+                }
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(2500, audioCtx.currentTime);
+                filter.Q.setValueAtTime(3.0, audioCtx.currentTime);
+
+                const gain = audioCtx.createGain();
+                gain.gain.setValueAtTime(vol * 0.4, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
+
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioCtx.destination);
+                noise.start();
+                noise.stop(audioCtx.currentTime + 1.5);
+            } else {
+                // Simulated sparkling + leaky faucet (weird mode)
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        if (isMuted) return;
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(800 + Math.random() * 600, audioCtx.currentTime);
+                        osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.08);
+
+                        gain.gain.setValueAtTime(vol * 0.15, audioCtx.currentTime);
+                        gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start();
+                        osc.stop(audioCtx.currentTime + 0.08);
+                    }, i * 90);
+                }
+            }
+        }
+
+        function playBombSound(vol) {
+            if (isMuted || !audioCtx) return;
+            if (isRealMode) {
+                // Authentic Atom Bomb / Sutli Bomb: Deep thunderous sub-bass boom + distortion roar
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(110, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(20, audioCtx.currentTime + 0.8);
+
+                gain.gain.setValueAtTime(vol * 0.8, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+
+                // Noise blast for explosion texture
+                const bufferSize = audioCtx.sampleRate * 0.8;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(400, audioCtx.currentTime);
+
+                const noiseGain = audioCtx.createGain();
+                noiseGain.gain.setValueAtTime(vol * 0.7, audioCtx.currentTime);
+                noiseGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                noise.connect(filter);
+                filter.connect(noiseGain);
+                noiseGain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.8);
+                noise.start();
+                noise.stop(audioCtx.currentTime + 0.8);
+            } else {
+                // Phone dropping hard tile: sharp thud + glass shatter simulation (weird mode)
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.3);
+
+                gain.gain.setValueAtTime(vol * 0.6, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        if (isMuted) return;
+                        const sOsc = audioCtx.createOscillator();
+                        const sGain = audioCtx.createGain();
+                        sOsc.type = 'sawtooth';
+                        sOsc.frequency.setValueAtTime(2000 + Math.random() * 2000, audioCtx.currentTime);
+                        sGain.gain.setValueAtTime(vol * 0.1, audioCtx.currentTime);
+                        sGain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+                        sOsc.connect(sGain);
+                        sGain.connect(audioCtx.destination);
+                        sOsc.start();
+                        sOsc.stop(audioCtx.currentTime + 0.05);
+                    }, 40 + i * 20);
+                }
+            }
+        }
+
+        function playRocketSound(vol) {
+            if (isMuted || !audioCtx) return;
+            if (isRealMode) {
+                // Authentic Rocket: High-pitched whistling ascent followed by a crisp aerial pop
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(3200, audioCtx.currentTime + 0.55);
+
+                gain.gain.setValueAtTime(vol * 0.35, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.55);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.55);
+
+                // Aerial Burst Pop at 0.55s
+                setTimeout(() => {
+                    if (isMuted) return;
+                    const burstOsc = audioCtx.createOscillator();
+                    const burstGain = audioCtx.createGain();
+                    burstOsc.type = 'triangle';
+                    burstOsc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                    burstOsc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.3);
+                    burstGain.gain.setValueAtTime(vol * 0.5, audioCtx.currentTime);
+                    burstGain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                    burstOsc.connect(burstGain);
+                    burstGain.connect(audioCtx.destination);
+                    burstOsc.start();
+                    burstOsc.stop(audioCtx.currentTime + 0.3);
+                }, 550);
+            } else {
+                // Whistle upward + dial-up modem screech (weird mode)
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(2500, audioCtx.currentTime + 0.6);
+
+                gain.gain.setValueAtTime(vol * 0.3, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.6);
+
+                setTimeout(() => {
+                    if (isMuted) return;
+                    const mOsc = audioCtx.createOscillator();
+                    const mGain = audioCtx.createGain();
+                    mOsc.type = 'square';
+                    mOsc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+                    mOsc.frequency.setValueAtTime(800, audioCtx.currentTime + 0.1);
+                    mGain.gain.setValueAtTime(vol * 0.15, audioCtx.currentTime);
+                    mGain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+                    mOsc.connect(mGain);
+                    mGain.connect(audioCtx.destination);
+                    mOsc.start();
+                    mOsc.stop(audioCtx.currentTime + 0.25);
+                }, 400);
+            }
+        }
+
+        function playChakraSound(vol) {
+            if (isMuted || !audioCtx) return;
+            if (isRealMode) {
+                // Authentic Ground Spinner / Chakra: Whirling high-speed fiery hiss & whistle
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(1400, audioCtx.currentTime + 0.4);
+                osc.frequency.linearRampToValueAtTime(600, audioCtx.currentTime + 0.8);
+
+                gain.gain.setValueAtTime(vol * 0.3, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.8);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.8);
+            } else {
+                // Fan hitting paper buzzing sound (weird mode)
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(350, audioCtx.currentTime + 0.4);
+                osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.8);
+
+                gain.gain.setValueAtTime(vol * 0.25, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.8);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.8);
+            }
+        }
+
+        // Main cracker trigger handler
+        function triggerCracker(type) {
+            initAudio();
+            const vol = parseFloat(volumeSlider.value);
+
+            // Update Annoyance Barometer
+            annoyanceScore = Math.min(annoyanceScore + 18, 100);
+            updateAnnoyanceBarometer();
+
+            // Trigger visuals & sound
+            triggerVisuals(type);
+
+            const modePrefix = isRealMode ? 'Authentic' : 'Quantum';
+
+            if (type === 'anar') {
+                playAnarSound(vol);
+                showToast(`${modePrefix} Anar ignited!`, '🪴');
+                updateStatus('Anar Sparking...');
+            } else if (type === 'bomb') {
+                playBombSound(vol);
+                showToast(`${modePrefix} Bomb detonated!`, '💣');
+                updateStatus('Explosion Registered!');
+            } else if (type === 'rocket') {
+                playRocketSound(vol);
+                showToast(`${modePrefix} Rocket launched!`, '🚀');
+                updateStatus('Rocket Ascending...');
+            } else if (type === 'chakra') {
+                playChakraSound(vol);
+                showToast(`${modePrefix} Chakra spinning!`, '🛞');
+                updateStatus('Chakra Whirring...');
+            }
+
+            setTimeout(() => {
+                updateStatus('System Ready');
+            }, 1200);
+        }
+
+        function updateStatus(text) {
+            document.getElementById('statusText').textContent = text;
+        }
+
+        function updateAnnoyanceBarometer() {
+            const bar = document.getElementById('annoyanceBar');
+            const label = document.getElementById('annoyanceLabel');
+            bar.style.width = annoyanceScore + '%';
+
+            if (annoyanceScore < 40) {
+                label.textContent = 'Mildly Confused';
+            } else if (annoyanceScore < 75) {
+                label.textContent = 'Sharma Ji Is Irritated';
+            } else if (annoyanceScore < 100) {
+                label.textContent = 'Maximum Neighborhood Meltdown';
+            } else {
+                label.textContent = 'Universe Collapsing into Chaos';
+            }
+
+            // Slowly decay annoyance over time if idle
+            setTimeout(() => {
+                if (annoyanceScore > 20) {
+                    annoyanceScore -= 2;
+                    updateAnnoyanceBarometer();
+                }
+            }, 3000);
+        }
+
+        // Toast notification helper (no alerts used!)
+        let toastTimeout;
+        function showToast(message, icon = '💡') {
+            const toast = document.getElementById('notificationToast');
+            document.getElementById('toastIcon').textContent = icon;
+            document.getElementById('toastText').textContent = message;
+            
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
